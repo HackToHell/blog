@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wanderings | A blog</title>
+    <link>https://blog.hacktohell.org/index.xml</link>
+    <description>Recent content on Wanderings | A blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <copyright>&amp;copy; 2017 | Follow on &lt;a href=&#34;https://twitter.com/hacktohell&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;</copyright>
+    <lastBuildDate>Sun, 12 Mar 2017 17:34:53 +0000</lastBuildDate>
+    <atom:link href="https://blog.hacktohell.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Adding multi level commands using spf13 cobra</title>
+      <link>https://blog.hacktohell.org/multi-level-command-spf13/</link>
+      <pubDate>Sun, 12 Mar 2017 17:34:53 +0000</pubDate>
+      
+      <guid>https://blog.hacktohell.org/multi-level-command-spf13/</guid>
+      <description>&lt;p&gt;We can chain commands pretty simply, say you want to make an app &lt;code&gt;streamer&lt;/code&gt; that has a sub command &lt;code&gt;read&lt;/code&gt; and an sub-command of that called &lt;code&gt;csv&lt;/code&gt; and &lt;code&gt;json&lt;/code&gt;. You can use the cobra init to generate these separate ones,&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;cobra add csv&lt;br /&gt;
+cobra add json&lt;br /&gt;
+cobra add read&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Then go into the source file and hook up csv and json with the proper parent, in this case, &lt;code&gt;readCmd&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;So we change from&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;RootCmd.AddCommand =&amp;gt; readCmd.AddCommand&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;This allows us to easily create a large tree.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

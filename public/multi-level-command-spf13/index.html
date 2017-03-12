@@ -1,0 +1,105 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="technology, blog" name="keywords">
+<meta content="hacktohell" name="author">
+<meta property="og:title" content="Adding multi level commands using spf13 cobra - Wanderings | A blog">
+<meta property="og:url" content="https://blog.hacktohell.org/multi-level-command-spf13/">
+<meta property="og:description" content="Tech Blog">
+<meta property="og:type" content="website" />
+<title>Adding multi level commands using spf13 cobra | Wanderings | A blog</title>
+<link rel="stylesheet" href="https://blog.hacktohell.org/css/style.css">
+<link rel="shortcut icon" href="https://blog.hacktohell.org/wave.ico">
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
+
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="https://blog.hacktohell.org"><h1 class="title is-4">Wanderings | A blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/hacktohell" target="_blank">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/hacktohell" target="_blank">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml" target="_blank">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">Adding multi level commands using spf13 cobra</h1>
+    <h2 class="subtitle is-5">March 12, 2017 by hacktohell</h2>
+    
+    <div class="content">
+      <p>We can chain commands pretty simply, say you want to make an app <code>streamer</code> that has a sub command <code>read</code> and an sub-command of that called <code>csv</code> and <code>json</code>. You can use the cobra init to generate these separate ones,</p>
+
+<blockquote>
+<p>cobra add csv<br />
+cobra add json<br />
+cobra add read</p>
+</blockquote>
+
+<p>Then go into the source file and hook up csv and json with the proper parent, in this case, <code>readCmd</code>.</p>
+
+<p>So we change from</p>
+
+<blockquote>
+<p>RootCmd.AddCommand =&gt; readCmd.AddCommand</p>
+</blockquote>
+
+<p>This allows us to easily create a large tree.</p>
+
+    </div>
+    
+        <div class="nav-left">
+    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fblog.hacktohell.org%2fmulti-level-command-spf13%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://plus.google.com/share?url=https%3a%2f%2fblog.hacktohell.org%2fmulti-level-command-spf13%2f" title="Share on Google+" target="_blank"><span class="fa fa-google-plus fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=https%3a%2f%2fblog.hacktohell.org%2fmulti-level-command-spf13%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://twitter.com/home?status=Adding%20multi%20level%20commands%20using%20spf13%20cobra - https%3a%2f%2fblog.hacktohell.org%2fmulti-level-command-spf13%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
+    <a class="nav-item" href="http://www.reddit.com/submit?url=https%3a%2f%2fblog.hacktohell.org%2fmulti-level-command-spf13%2f&title=Adding%20multi%20level%20commands%20using%20spf13%20cobra" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
+    
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; 2017 | Follow on <a href="https://twitter.com/hacktohell" target="_blank">Twitter</a></p>
+  </div>
+</section>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js" integrity="sha256-KbfTjB0WZ8vvXngdpJGY3Yp3xKk+tttbqClO11anCIU=" crossorigin="anonymous"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/go.min.js"></script>
+
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/dockerfile.min.js"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
