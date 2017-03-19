@@ -4,7 +4,8 @@ theme = "Hucore"
 copyright = "&copy; 2017 | Follow on <a href=\"https://twitter.com/hacktohell\" target=\"_blank\">Twitter</a>"
 #disqusShortname = "shortname"
 #googleAnalytics = "trackingcode"
-baseURL = "https://blog.hacktohell.org"
+baseURL = "http://blog.hacktohell.org"
+googleAnalytics = "UA-16175693-14"
 [taxonomies]
 tag = "go"
 #category = "categories"
@@ -15,9 +16,9 @@ keywords = ["technology","blog"]
 author = "hacktohell"
 sharingicons = true
 
-[params.highlight]
-style = "github"
-languages = ["go", "dockerfile"]
+#[params.highlight]
+#style = "github"
+#languages = ["go", "dockerfile"]
 
 [[params.social]]
 url = "https://github.com/hacktohell"

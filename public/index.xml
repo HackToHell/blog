@@ -7,8 +7,57 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; 2017 | Follow on &lt;a href=&#34;https://twitter.com/hacktohell&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 12 Mar 2017 17:34:53 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 19 Mar 2017 13:51:47 +0000</lastBuildDate>
     <atom:link href="https://blog.hacktohell.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Moving from HDD to SSD with Arch Linux</title>
+      <link>https://blog.hacktohell.org/moving-from-hdd-to-ssd-arch/</link>
+      <pubDate>Sun, 19 Mar 2017 13:51:47 +0000</pubDate>
+      
+      <guid>https://blog.hacktohell.org/moving-from-hdd-to-ssd-arch/</guid>
+      <description>&lt;p&gt;Was scouting out a SSD for my laptop and I found the 2 year old EVO 850 series to be the right combination of performance vs reliability. I got the 250 GB one as it was within my 10k budget. I also got a metal mounting bracket, (plastic ones don&amp;rsquo;t conduct heat). Originally the plan was to have the HDD in the bracket but ended up having the SSD in there.&lt;/p&gt;
+
+&lt;p&gt;The EVO does have some little issues though, it&amp;rsquo;s made of TLC NAND which has rather slow write performance compared to SLC NAND, samsung address this problem by having an TLC NAND cache, called TurboWrite which is 3GB. After the initial 3GB write speeds are going to slow down by about 220 MB/s. (From 520 to 300). You should read up Anand Tech&amp;rsquo;s review of the SSD for a more detailed analysis(&lt;a href=&#34;http://www.anandtech.com/show/8747/samsung-ssd-850-evo-review/2&#34;&gt;http://www.anandtech.com/show/8747/samsung-ssd-850-evo-review/2&lt;/a&gt;). The drive is rated at 75 TBW with a five year warranty but it should be able to go way more than that.&lt;/p&gt;
+
+&lt;p&gt;For my use case, mainly speeding up Idea and Pycharm, it&amp;rsquo;s not going to come close to that limit in 5 years. I have been running arch linux for a while now and decided to simply copy it over instead of spending time reinstalling it on the SSD. I had installed it on a 100 GB partition and was only using about 50 gigs, so I could copy it over easily.&lt;/p&gt;
+
+&lt;p&gt;The installing part was fairly simple, the CD -&amp;gt; HDD bracket dimensions were a little bit off and I had to apply a bit of force to get it to slide in. Then booted from my USB drive into elementary linux and continued from there. Used this as the reference for the copy &lt;a href=&#34;https://jivoi.github.io/2016/04/04/move-from-hdd-to-ssd-with-archlinux/&#34;&gt;https://jivoi.github.io/2016/04/04/move-from-hdd-to-ssd-with-archlinux/&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Used GPT and I had to create a 2mb bios partition otherwise grub install would refuse to work. Good thing I left out 4 mb before the first partition otherwise I would have had to delete all the data and do it from the beginning. The other partition was good old ext4.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;mount /dev/sdb2 /mnt
+mkdir /mnt_old
+mount /dev/sda9 /mnt_old
+rsync -aAXv --progress /mnt_old/ /mnt
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Note the forward slash on &lt;code&gt;mnt_old&lt;/code&gt; miss that and there will be a folder called mnt_old inside &lt;code&gt;mnt&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Then I edited the fstab file with the UUID of the new partition, found using the &lt;code&gt;blkid&lt;/code&gt; command and pointed &lt;code&gt;/&lt;/code&gt; at it. Then had to chroot into arch to install grub.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ mount --bind /dev /mnt/dev
+$ mount --bind /proc /mnt/proc
+$ mount --bind /sys /mnt/sys
+$ chroot /mnt /bin/bash
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;I realized that I didn&amp;rsquo;t have grub package in arch, tried to install via pacman and it worked! (surprise). Need to learn more about chroots. Then the good old grub-install pushed the config to /boot&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;$ grub-install --debug --recheck /dev/sdb
+$ grub-install --target=i386-pc --debug --recheck /dev/sdb
+$ grub-mkconfig -o /boot/grub/grub.cfg
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Rebooted and changed the boot order to boot from the SSD instead of the HDD and that was pretty much it. Went smoother than I anticipated.&lt;/p&gt;
+
+&lt;p&gt;Post install I enabled the fstrim service &lt;code&gt;systemctl enable fstrim.service&lt;/code&gt; and added the noatime to the mount parameters in fstab.&lt;/p&gt;
+
+&lt;p&gt;There&amp;rsquo;s also this handy script I found on Stack Overflow for checking the data written to the SSD.&lt;/p&gt;
+
+&lt;script src=&#34;https://gist.github.com/HackToHell/7c658179c24be63bdf739978b97f313a.js&#34;&gt;&lt;/script&gt;
+</description>
+    </item>
     
     <item>
       <title>Adding multi level commands using spf13 cobra</title>
