@@ -1,0 +1,201 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="technology, blog" name="keywords">
+<meta content="hacktohell" name="author">
+<meta property="og:title" content="Making VP9 hardware decoding work with Kaby Lake and Arch Linux - Wanderings | A blog">
+<meta property="og:url" content="http://blog.hacktohell.org/vp9-hardware-decoding-arch-linux/">
+<meta property="og:description" content="Tech Blog">
+<meta property="og:type" content="website" />
+<title>Making VP9 hardware decoding work with Kaby Lake and Arch Linux | Wanderings | A blog</title>
+<link rel="stylesheet" href="http://blog.hacktohell.org/css/style.css">
+<link rel="shortcut icon" href="http://blog.hacktohell.org/wave.ico">
+
+
+
+
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="http://blog.hacktohell.org"><h1 class="title is-4">Wanderings | A blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/hacktohell" target="_blank">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/hacktohell" target="_blank">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml" target="_blank">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">Making VP9 hardware decoding work with Kaby Lake and Arch Linux</h1>
+    <h2 class="subtitle is-5">May 29, 2017 by hacktohell</h2>
+    
+    <div class="content">
+      
+
+<p>Kaby Lake processors come with Intel HD graphics chips that allows for you to do hardware decoding of VP9 and H.265 10 bit videos. Check the chart below for more details.</p>
+
+<p><img src="http://images.anandtech.com/doci/10959/1-11_575px.png" alt="Credits to Anand Tech" /></p>
+
+<p>Intel Allows you to access their Intel GPU by using the VA-API, the Arch Linux wiki has a good deal of information on VA-API and VDPAU <a href="https://wiki.archlinux.org/index.php/Hardware_video_acceleration#Installing_VA-API">here</a>.</p>
+
+<h2 id="installing-drivers">Installing Drivers</h2>
+
+<p>Let&rsquo;s install the VA-API with</p>
+
+<blockquote>
+<p>sudo pacman -S libva-intel-driver</p>
+</blockquote>
+
+<p>To actually test if VA-API works, we have to install another AUR package to get the vainfo binary.</p>
+
+<blockquote>
+<p>sudo yaourt -S libva-utils</p>
+</blockquote>
+
+<p>Now you should be able to run <code>vainfo</code> to get the supported profiles.</p>
+
+<p>You should get an output like this.</p>
+
+<pre><code>libva info: VA-API version 0.40.0
+libva info: va_getDriverName() returns 0
+libva info: Trying to open /usr/lib/dri/i965_drv_video.so
+libva info: Found init function __vaDriverInit_0_40
+libva info: va_openDriver() returns 0
+vainfo: VA-API version: 0.40 (libva )
+vainfo: Driver version: Intel i965 driver for Intel(R) Kabylake - 1.8.1
+vainfo: Supported profile and entrypoints
+      VAProfileMPEG2Simple            :	VAEntrypointVLD
+      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
+      VAProfileMPEG2Main              :	VAEntrypointVLD
+      VAProfileMPEG2Main              :	VAEntrypointEncSlice
+      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
+      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
+      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSliceLP
+      VAProfileH264Main               :	VAEntrypointVLD
+      VAProfileH264Main               :	VAEntrypointEncSlice
+      VAProfileH264Main               :	VAEntrypointEncSliceLP
+      VAProfileH264High               :	VAEntrypointVLD
+      VAProfileH264High               :	VAEntrypointEncSlice
+      VAProfileH264High               :	VAEntrypointEncSliceLP
+      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
+      VAProfileH264StereoHigh         :	VAEntrypointVLD
+      VAProfileVC1Simple              :	VAEntrypointVLD
+      VAProfileVC1Main                :	VAEntrypointVLD
+      VAProfileVC1Advanced            :	VAEntrypointVLD
+      VAProfileNone                   :	VAEntrypointVideoProc
+      VAProfileJPEGBaseline           :	VAEntrypointVLD
+      VAProfileJPEGBaseline           :	VAEntrypointEncPicture
+      VAProfileVP8Version0_3          :	VAEntrypointVLD
+      VAProfileVP8Version0_3          :	VAEntrypointEncSlice
+      VAProfileHEVCMain               :	VAEntrypointVLD
+      VAProfileHEVCMain               :	VAEntrypointEncSlice
+      VAProfileHEVCMain10             :	VAEntrypointVLD
+      VAProfileHEVCMain10             :	VAEntrypointEncSlice
+      VAProfileVP9Profile0            :	VAEntrypointVLD
+      VAProfileVP9Profile0            :	VAEntrypointEncSlice
+      VAProfileVP9Profile2            :	VAEntrypointVLD
+</code></pre>
+
+<p><code>VLD</code> means we have hardware accelerated media decoding.</p>
+
+<h2 id="media-players">Media players</h2>
+
+<p>I have gone through quite a lot of media players trying to get it to use the VA-API, the ones which are apparently supported apparently</p>
+
+<ul>
+<li><p>Gstreamer - <a href="https://gstreamer.freedesktop.org/modules/gstreamer-vaapi.html">https://gstreamer.freedesktop.org/modules/gstreamer-vaapi.html</a></p></li>
+
+<li><p>QtAV which uses FFmpeg <a href="http://www.qtav.org/">http://www.qtav.org/</a></p></li>
+
+<li><p>mpv a fork of Mplayer <a href="https://mpv.io/">https://mpv.io/</a></p></li>
+</ul>
+
+<p>In the end I was only able to get mpv work with hardware video acceleration with VA-API.</p>
+
+<h2 id="mpv">MPV</h2>
+
+<p>So MPV out of the box doesn&rsquo;t actually use VA-API cause the developers don&rsquo;t seem to like it.</p>
+
+<p>Quote from their wiki.</p>
+
+<pre><code>This driver is for compatibility with crappy systems.
+</code></pre>
+
+<p>Unfortunately we are left to work with it. There seem to be two modes/APIs in VA-API, one EGL and the other is GLX mode. The GLX mode doesn&rsquo;t render at full color and it&rsquo;s the only that seems to work right now. The EGL API doesn&rsquo;t work.</p>
+
+<blockquote>
+<p>vim ~/.config/mpv/mpv.conf</p>
+</blockquote>
+
+<p>The magic line you need to add is</p>
+
+<blockquote>
+<p>hwdec=vaapi</p>
+</blockquote>
+
+<p>You can also add in the line below for higher quality, though be warned that 4k videos start stuttering.</p>
+
+<blockquote>
+<p>profile=opengl-hq</p>
+</blockquote>
+
+<p>CPU usage went down from about 120% with full CPU rendering of a <a href="https://www.youtube.com/watch?v=AOfMnx6fc6A">4k youtube video</a>, to about 20% after it started using the GPU.</p>
+
+    </div>
+    
+        <div class="nav-left">
+    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fblog.hacktohell.org%2fvp9-hardware-decoding-arch-linux%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://plus.google.com/share?url=http%3a%2f%2fblog.hacktohell.org%2fvp9-hardware-decoding-arch-linux%2f" title="Share on Google+" target="_blank"><span class="fa fa-google-plus fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fblog.hacktohell.org%2fvp9-hardware-decoding-arch-linux%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://twitter.com/home?status=Making%20VP9%20hardware%20decoding%20work%20with%20Kaby%20Lake%20and%20Arch%20Linux - http%3a%2f%2fblog.hacktohell.org%2fvp9-hardware-decoding-arch-linux%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
+    <a class="nav-item" href="http://www.reddit.com/submit?url=http%3a%2f%2fblog.hacktohell.org%2fvp9-hardware-decoding-arch-linux%2f&title=Making%20VP9%20hardware%20decoding%20work%20with%20Kaby%20Lake%20and%20Arch%20Linux" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
+    
+    </div>
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; 2017 | Follow on <a href="https://twitter.com/hacktohell" target="_blank">Twitter</a></p>
+  </div>
+</section>
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> 
+
+
+
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-16175693-14', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='//www.google-analytics.com/analytics.js'></script>
+
+
+

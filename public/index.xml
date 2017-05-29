@@ -7,8 +7,127 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; 2017 | Follow on &lt;a href=&#34;https://twitter.com/hacktohell&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;</copyright>
-    <lastBuildDate>Sun, 19 Mar 2017 13:51:47 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 29 May 2017 19:51:13 +0000</lastBuildDate>
     <atom:link href="http://blog.hacktohell.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Making VP9 hardware decoding work with Kaby Lake and Arch Linux</title>
+      <link>http://blog.hacktohell.org/vp9-hardware-decoding-arch-linux/</link>
+      <pubDate>Mon, 29 May 2017 19:51:13 +0000</pubDate>
+      
+      <guid>http://blog.hacktohell.org/vp9-hardware-decoding-arch-linux/</guid>
+      <description>
+
+&lt;p&gt;Kaby Lake processors come with Intel HD graphics chips that allows for you to do hardware decoding of VP9 and H.265 10 bit videos. Check the chart below for more details.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://images.anandtech.com/doci/10959/1-11_575px.png&#34; alt=&#34;Credits to Anand Tech&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Intel Allows you to access their Intel GPU by using the VA-API, the Arch Linux wiki has a good deal of information on VA-API and VDPAU &lt;a href=&#34;https://wiki.archlinux.org/index.php/Hardware_video_acceleration#Installing_VA-API&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;installing-drivers&#34;&gt;Installing Drivers&lt;/h2&gt;
+
+&lt;p&gt;Let&amp;rsquo;s install the VA-API with&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;sudo pacman -S libva-intel-driver&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;To actually test if VA-API works, we have to install another AUR package to get the vainfo binary.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;sudo yaourt -S libva-utils&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;Now you should be able to run &lt;code&gt;vainfo&lt;/code&gt; to get the supported profiles.&lt;/p&gt;
+
+&lt;p&gt;You should get an output like this.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;libva info: VA-API version 0.40.0
+libva info: va_getDriverName() returns 0
+libva info: Trying to open /usr/lib/dri/i965_drv_video.so
+libva info: Found init function __vaDriverInit_0_40
+libva info: va_openDriver() returns 0
+vainfo: VA-API version: 0.40 (libva )
+vainfo: Driver version: Intel i965 driver for Intel(R) Kabylake - 1.8.1
+vainfo: Supported profile and entrypoints
+      VAProfileMPEG2Simple            :	VAEntrypointVLD
+      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
+      VAProfileMPEG2Main              :	VAEntrypointVLD
+      VAProfileMPEG2Main              :	VAEntrypointEncSlice
+      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
+      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
+      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSliceLP
+      VAProfileH264Main               :	VAEntrypointVLD
+      VAProfileH264Main               :	VAEntrypointEncSlice
+      VAProfileH264Main               :	VAEntrypointEncSliceLP
+      VAProfileH264High               :	VAEntrypointVLD
+      VAProfileH264High               :	VAEntrypointEncSlice
+      VAProfileH264High               :	VAEntrypointEncSliceLP
+      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
+      VAProfileH264StereoHigh         :	VAEntrypointVLD
+      VAProfileVC1Simple              :	VAEntrypointVLD
+      VAProfileVC1Main                :	VAEntrypointVLD
+      VAProfileVC1Advanced            :	VAEntrypointVLD
+      VAProfileNone                   :	VAEntrypointVideoProc
+      VAProfileJPEGBaseline           :	VAEntrypointVLD
+      VAProfileJPEGBaseline           :	VAEntrypointEncPicture
+      VAProfileVP8Version0_3          :	VAEntrypointVLD
+      VAProfileVP8Version0_3          :	VAEntrypointEncSlice
+      VAProfileHEVCMain               :	VAEntrypointVLD
+      VAProfileHEVCMain               :	VAEntrypointEncSlice
+      VAProfileHEVCMain10             :	VAEntrypointVLD
+      VAProfileHEVCMain10             :	VAEntrypointEncSlice
+      VAProfileVP9Profile0            :	VAEntrypointVLD
+      VAProfileVP9Profile0            :	VAEntrypointEncSlice
+      VAProfileVP9Profile2            :	VAEntrypointVLD
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;code&gt;VLD&lt;/code&gt; means we have hardware accelerated media decoding.&lt;/p&gt;
+
+&lt;h2 id=&#34;media-players&#34;&gt;Media players&lt;/h2&gt;
+
+&lt;p&gt;I have gone through quite a lot of media players trying to get it to use the VA-API, the ones which are apparently supported apparently&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Gstreamer - &lt;a href=&#34;https://gstreamer.freedesktop.org/modules/gstreamer-vaapi.html&#34;&gt;https://gstreamer.freedesktop.org/modules/gstreamer-vaapi.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;QtAV which uses FFmpeg &lt;a href=&#34;http://www.qtav.org/&#34;&gt;http://www.qtav.org/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;mpv a fork of Mplayer &lt;a href=&#34;https://mpv.io/&#34;&gt;https://mpv.io/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;In the end I was only able to get mpv work with hardware video acceleration with VA-API.&lt;/p&gt;
+
+&lt;h2 id=&#34;mpv&#34;&gt;MPV&lt;/h2&gt;
+
+&lt;p&gt;So MPV out of the box doesn&amp;rsquo;t actually use VA-API cause the developers don&amp;rsquo;t seem to like it.&lt;/p&gt;
+
+&lt;p&gt;Quote from their wiki.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;This driver is for compatibility with crappy systems.
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Unfortunately we are left to work with it. There seem to be two modes/APIs in VA-API, one EGL and the other is GLX mode. The GLX mode doesn&amp;rsquo;t render at full color and it&amp;rsquo;s the only that seems to work right now. The EGL API doesn&amp;rsquo;t work.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;vim ~/.config/mpv/mpv.conf&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;The magic line you need to add is&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;hwdec=vaapi&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;You can also add in the line below for higher quality, though be warned that 4k videos start stuttering.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;profile=opengl-hq&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;CPU usage went down from about 120% with full CPU rendering of a &lt;a href=&#34;https://www.youtube.com/watch?v=AOfMnx6fc6A&#34;&gt;4k youtube video&lt;/a&gt;, to about 20% after it started using the GPU.&lt;/p&gt;
+</description>
+    </item>
     
     <item>
       <title>Moving from HDD to SSD with Arch Linux</title>

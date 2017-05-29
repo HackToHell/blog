@@ -1,6 +1,6 @@
 languageCode = "en"
 title = "Wanderings | A blog"
-theme = "Hucore"
+theme = "hucore"
 copyright = "&copy; 2017 | Follow on <a href=\"https://twitter.com/hacktohell\" target=\"_blank\">Twitter</a>"
 #disqusShortname = "shortname"
 #googleAnalytics = "trackingcode"
