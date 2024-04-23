@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content="technology, blog" name="keywords">
 <meta content="hacktohell" name="author">
-<meta property="og:title" content="Adding multi level commands using spf13 cobra - Wanderings | A blog">
-<meta property="og:url" content="http://localhost:1313/multi-level-command-spf13/">
+<meta property="og:title" content="Go - Wanderings | A blog">
+<meta property="og:url" content="http://localhost:1313/go/">
 <meta property="og:description" content="Tech Blog">
 <meta property="og:type" content="website" />
-<title>Adding multi level commands using spf13 cobra | Wanderings | A blog</title>
+<title>Go | Wanderings | A blog</title>
 
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({
@@ -27,7 +27,6 @@
 
 </head>
 
-<body>
 <section class="section">
   <div class="container">
     <nav class="nav">
@@ -63,37 +62,25 @@
 
 <section class="section">
   <div class="container">
-    <h1 class="title">Adding multi level commands using spf13 cobra</h1>
-    <h2 class="subtitle is-5">March 12, 2017 by hacktohell</h2>
-    
-    <div class="content">
-      <p>We can chain commands pretty simply, say you want to make an app <code>streamer</code> that has a sub command <code>read</code> and an sub-command of that called <code>csv</code> and <code>json</code>. You can use the cobra init to generate these separate ones,</p>
-<blockquote>
-<p>cobra add csv <br>
-cobra add json<br>
-cobra add read</p>
-</blockquote>
-<p>Then go into the source file and hook up csv and json with the proper parent, in this case, <code>readCmd</code>.</p>
-<p>So we change from</p>
-<blockquote>
-<p>RootCmd.AddCommand =&gt; readCmd.AddCommand</p>
-</blockquote>
-<p>This allows us to easily create a large tree.</p>
-
-    </div>
-    
-        <div class="nav-left">
-    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fmulti-level-command-spf13%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
-    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fmulti-level-command-spf13%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
-    <a class="nav-item" href="https://twitter.com/home?status=Adding%20multi%20level%20commands%20using%20spf13%20cobra - http%3a%2f%2flocalhost%3a1313%2fmulti-level-command-spf13%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
-    <a class="nav-item" href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fmulti-level-command-spf13%2f&title=Adding%20multi%20level%20commands%20using%20spf13%20cobra" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
-    
-    </div>
-
     
   </div>
 </section>
-
+<section class="section">
+  <div class="container">
+    <nav class="level is-mobile">
+      <div class="level-left">
+        <div class="level-item">
+          
+        </div>
+      </div>
+      <div class="level-right is-marginless">
+        <div class="level-item">
+          
+        </div>
+      </div>
+    </nav>
+  </div>
+</section>
 
 <section class="section">
   <div class="container has-text-centered">
@@ -120,4 +107,3 @@ if (!doNotTrack) {
 
 
 
-</body>

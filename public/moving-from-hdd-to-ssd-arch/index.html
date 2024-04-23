@@ -1,26 +1,38 @@
-
 <!DOCTYPE html>
 <html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content="technology, blog" name="keywords">
 <meta content="hacktohell" name="author">
 <meta property="og:title" content="Moving from HDD to SSD with Arch Linux - Wanderings | A blog">
-<meta property="og:url" content="http://blog.hacktohell.org/moving-from-hdd-to-ssd-arch/">
+<meta property="og:url" content="http://localhost:1313/moving-from-hdd-to-ssd-arch/">
 <meta property="og:description" content="Tech Blog">
 <meta property="og:type" content="website" />
 <title>Moving from HDD to SSD with Arch Linux | Wanderings | A blog</title>
-<link rel="stylesheet" href="http://blog.hacktohell.org/css/style.css">
-<link rel="shortcut icon" href="http://blog.hacktohell.org/wave.ico">
 
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel="stylesheet" href="http://localhost:1313//css/style.css">
+<link rel="shortcut icon" href="http://localhost:1313//favicon.ico">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" integrity="sha256-Zd1icfZ72UBmsId/mUcagrmN7IN5Qkrvh75ICHIQVTk=" crossorigin="anonymous" />
 
+</head>
 
+<body>
 <section class="section">
   <div class="container">
     <nav class="nav">
       <div class="nav-left">
-        <a class="nav-item" href="http://blog.hacktohell.org"><h1 class="title is-4">Wanderings | A blog</h1></a>
+        <a class="nav-item" href="http://localhost:1313/"><h1 class="title is-4">Wanderings | A blog</h1></a>
       </div>
       <div class="nav-right">
         <nav class="nav-item level is-mobile">
@@ -56,56 +68,39 @@
     
     <div class="content">
       <p>Was scouting out a SSD for my laptop and I found the 2 year old EVO 850 series to be the right combination of performance vs reliability. I got the 250 GB one as it was within my 10k budget. I also got a metal mounting bracket, (plastic ones don&rsquo;t conduct heat). Originally the plan was to have the HDD in the bracket but ended up having the SSD in there.</p>
-
-<p>The EVO does have some little issues though, it&rsquo;s made of TLC NAND which has rather slow write performance compared to SLC NAND, samsung address this problem by having an TLC NAND cache, called TurboWrite which is 3GB. After the initial 3GB write speeds are going to slow down by about 220 MB/s. (From 520 to 300). You should read up Anand Tech&rsquo;s review of the SSD for a more detailed analysis(<a href="http://www.anandtech.com/show/8747/samsung-ssd-850-evo-review/2">http://www.anandtech.com/show/8747/samsung-ssd-850-evo-review/2</a>). The drive is rated at 75 TBW with a five year warranty but it should be able to go way more than that.</p>
-
+<p>The EVO does have some little issues though, it&rsquo;s made of TLC NAND which has rather slow write performance compared to SLC NAND, samsung address this problem by having an TLC NAND cache, called TurboWrite which is 3GB. After the initial 3GB write speeds are going to slow down by about 220 MB/s. (From 520 to 300). You should read up Anand Tech&rsquo;s review of the SSD for a more detailed analysis(<a href="http://www.anandtech.com/show/8747/samsung-ssd-850-evo-review/2)">http://www.anandtech.com/show/8747/samsung-ssd-850-evo-review/2)</a>. The drive is rated at 75 TBW with a five year warranty but it should be able to go way more than that.</p>
 <p>For my use case, mainly speeding up Idea and Pycharm, it&rsquo;s not going to come close to that limit in 5 years. I have been running arch linux for a while now and decided to simply copy it over instead of spending time reinstalling it on the SSD. I had installed it on a 100 GB partition and was only using about 50 gigs, so I could copy it over easily.</p>
-
 <p>The installing part was fairly simple, the CD -&gt; HDD bracket dimensions were a little bit off and I had to apply a bit of force to get it to slide in. Then booted from my USB drive into elementary linux and continued from there. Used this as the reference for the copy <a href="https://jivoi.github.io/2016/04/04/move-from-hdd-to-ssd-with-archlinux/">https://jivoi.github.io/2016/04/04/move-from-hdd-to-ssd-with-archlinux/</a>.</p>
-
 <p>Used GPT and I had to create a 2mb bios partition otherwise grub install would refuse to work. Good thing I left out 4 mb before the first partition otherwise I would have had to delete all the data and do it from the beginning. The other partition was good old ext4.</p>
-
-<pre><code>mount /dev/sdb2 /mnt
+<pre tabindex="0"><code>mount /dev/sdb2 /mnt
 mkdir /mnt_old
 mount /dev/sda9 /mnt_old
 rsync -aAXv --progress /mnt_old/ /mnt
-</code></pre>
-
-<p>Note the forward slash on <code>mnt_old</code> miss that and there will be a folder called mnt_old inside <code>mnt</code>.</p>
-
+</code></pre><p>Note the forward slash on <code>mnt_old</code> miss that and there will be a folder called mnt_old inside <code>mnt</code>.</p>
 <p>Then I edited the fstab file with the UUID of the new partition, found using the <code>blkid</code> command and pointed <code>/</code> at it. Then had to chroot into arch to install grub.</p>
-
-<pre><code>$ mount --bind /dev /mnt/dev
+<pre tabindex="0"><code>$ mount --bind /dev /mnt/dev
 $ mount --bind /proc /mnt/proc
 $ mount --bind /sys /mnt/sys
 $ chroot /mnt /bin/bash
-</code></pre>
-
-<p>I realized that I didn&rsquo;t have grub package in arch, tried to install via pacman and it worked! (surprise). Need to learn more about chroots. Then the good old grub-install pushed the config to /boot</p>
-
-<pre><code>$ grub-install --debug --recheck /dev/sdb
+</code></pre><p>I realized that I didn&rsquo;t have grub package in arch, tried to install via pacman and it worked! (surprise). Need to learn more about chroots. Then the good old grub-install pushed the config to /boot</p>
+<pre tabindex="0"><code>$ grub-install --debug --recheck /dev/sdb
 $ grub-install --target=i386-pc --debug --recheck /dev/sdb
 $ grub-mkconfig -o /boot/grub/grub.cfg
-</code></pre>
-
-<p>Rebooted and changed the boot order to boot from the SSD instead of the HDD and that was pretty much it. Went smoother than I anticipated.</p>
-
+</code></pre><p>Rebooted and changed the boot order to boot from the SSD instead of the HDD and that was pretty much it. Went smoother than I anticipated.</p>
 <p>Post install I enabled the fstrim service <code>systemctl enable fstrim.service</code> and added the noatime to the mount parameters in fstab.</p>
-
 <p>There&rsquo;s also this handy script I found on Stack Overflow for checking the data written to the SSD.</p>
-
-<script src="https://gist.github.com/HackToHell/7c658179c24be63bdf739978b97f313a.js"></script>
+<!-- raw HTML omitted -->
 
     </div>
     
         <div class="nav-left">
-    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fblog.hacktohell.org%2fmoving-from-hdd-to-ssd-arch%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
-    <a class="nav-item" href="https://plus.google.com/share?url=http%3a%2f%2fblog.hacktohell.org%2fmoving-from-hdd-to-ssd-arch%2f" title="Share on Google+" target="_blank"><span class="fa fa-google-plus fa-2x" aria-hidden="true"></span></a>
-    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fblog.hacktohell.org%2fmoving-from-hdd-to-ssd-arch%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
-    <a class="nav-item" href="https://twitter.com/home?status=Moving%20from%20HDD%20to%20SSD%20with%20Arch%20Linux - http%3a%2f%2fblog.hacktohell.org%2fmoving-from-hdd-to-ssd-arch%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
-    <a class="nav-item" href="http://www.reddit.com/submit?url=http%3a%2f%2fblog.hacktohell.org%2fmoving-from-hdd-to-ssd-arch%2f&title=Moving%20from%20HDD%20to%20SSD%20with%20Arch%20Linux" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fmoving-from-hdd-to-ssd-arch%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fmoving-from-hdd-to-ssd-arch%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://twitter.com/home?status=Moving%20from%20HDD%20to%20SSD%20with%20Arch%20Linux - http%3a%2f%2flocalhost%3a1313%2fmoving-from-hdd-to-ssd-arch%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
+    <a class="nav-item" href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fmoving-from-hdd-to-ssd-arch%2f&title=Moving%20from%20HDD%20to%20SSD%20with%20Arch%20Linux" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
     
     </div>
+
     
   </div>
 </section>
@@ -116,16 +111,24 @@ $ grub-mkconfig -o /boot/grub/grub.cfg
     <p>&copy; 2017 | Follow on <a href="https://twitter.com/hacktohell" target="_blank">Twitter</a></p>
   </div>
 </section>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> 
 
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 <script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-16175693-14', 'auto');
-ga('send', 'pageview');
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-16175693-14', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
 
+</body>

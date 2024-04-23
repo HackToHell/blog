@@ -1,208 +1,41 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Wanderings | A blog</title>
-    <link>http://blog.hacktohell.org/index.xml</link>
+    <link>http://localhost:1313/</link>
     <description>Recent content on Wanderings | A blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>&amp;copy; 2017 | Follow on &lt;a href=&#34;https://twitter.com/hacktohell&#34; target=&#34;_blank&#34;&gt;Twitter&lt;/a&gt;</copyright>
-    <lastBuildDate>Mon, 29 May 2017 19:51:13 +0000</lastBuildDate>
-    <atom:link href="http://blog.hacktohell.org/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Tue, 23 Apr 2024 04:38:03 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NAS and selfhosted server build</title>
+      <link>http://localhost:1313/nas-server-build/</link>
+      <pubDate>Tue, 23 Apr 2024 04:38:03 +0000</pubDate>
+      <guid>http://localhost:1313/nas-server-build/</guid>
+      <description>While I have officially had a whole load of smaller machines as &amp;ldquo;selfhosted&amp;rdquo; servers, they have been adhoc all over the place (raspis are quite fun to stick in random places and then forget about). I have also been running on some older laptop hard drives that finally kicked the bucket and I don&amp;rsquo;t have space on my main rig anymore after fiting a 3090 and a 3070 in it.</description>
+    </item>
     <item>
       <title>Making VP9 hardware decoding work with Kaby Lake and Arch Linux</title>
-      <link>http://blog.hacktohell.org/vp9-hardware-decoding-arch-linux/</link>
+      <link>http://localhost:1313/vp9-hardware-decoding-arch-linux/</link>
       <pubDate>Mon, 29 May 2017 19:51:13 +0000</pubDate>
-      
-      <guid>http://blog.hacktohell.org/vp9-hardware-decoding-arch-linux/</guid>
-      <description>
-
-&lt;p&gt;Kaby Lake processors come with Intel HD graphics chips that allows for you to do hardware decoding of VP9 and H.265 10 bit videos. Check the chart below for more details.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://images.anandtech.com/doci/10959/1-11_575px.png&#34; alt=&#34;Credits to Anand Tech&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Intel Allows you to access their Intel GPU by using the VA-API, the Arch Linux wiki has a good deal of information on VA-API and VDPAU &lt;a href=&#34;https://wiki.archlinux.org/index.php/Hardware_video_acceleration#Installing_VA-API&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;h2 id=&#34;installing-drivers&#34;&gt;Installing Drivers&lt;/h2&gt;
-
-&lt;p&gt;Let&amp;rsquo;s install the VA-API with&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;sudo pacman -S libva-intel-driver&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;To actually test if VA-API works, we have to install another AUR package to get the vainfo binary.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;sudo yaourt -S libva-utils&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Now you should be able to run &lt;code&gt;vainfo&lt;/code&gt; to get the supported profiles.&lt;/p&gt;
-
-&lt;p&gt;You should get an output like this.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;libva info: VA-API version 0.40.0
-libva info: va_getDriverName() returns 0
-libva info: Trying to open /usr/lib/dri/i965_drv_video.so
-libva info: Found init function __vaDriverInit_0_40
-libva info: va_openDriver() returns 0
-vainfo: VA-API version: 0.40 (libva )
-vainfo: Driver version: Intel i965 driver for Intel(R) Kabylake - 1.8.1
-vainfo: Supported profile and entrypoints
-      VAProfileMPEG2Simple            :	VAEntrypointVLD
-      VAProfileMPEG2Simple            :	VAEntrypointEncSlice
-      VAProfileMPEG2Main              :	VAEntrypointVLD
-      VAProfileMPEG2Main              :	VAEntrypointEncSlice
-      VAProfileH264ConstrainedBaseline:	VAEntrypointVLD
-      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSlice
-      VAProfileH264ConstrainedBaseline:	VAEntrypointEncSliceLP
-      VAProfileH264Main               :	VAEntrypointVLD
-      VAProfileH264Main               :	VAEntrypointEncSlice
-      VAProfileH264Main               :	VAEntrypointEncSliceLP
-      VAProfileH264High               :	VAEntrypointVLD
-      VAProfileH264High               :	VAEntrypointEncSlice
-      VAProfileH264High               :	VAEntrypointEncSliceLP
-      VAProfileH264MultiviewHigh      :	VAEntrypointVLD
-      VAProfileH264StereoHigh         :	VAEntrypointVLD
-      VAProfileVC1Simple              :	VAEntrypointVLD
-      VAProfileVC1Main                :	VAEntrypointVLD
-      VAProfileVC1Advanced            :	VAEntrypointVLD
-      VAProfileNone                   :	VAEntrypointVideoProc
-      VAProfileJPEGBaseline           :	VAEntrypointVLD
-      VAProfileJPEGBaseline           :	VAEntrypointEncPicture
-      VAProfileVP8Version0_3          :	VAEntrypointVLD
-      VAProfileVP8Version0_3          :	VAEntrypointEncSlice
-      VAProfileHEVCMain               :	VAEntrypointVLD
-      VAProfileHEVCMain               :	VAEntrypointEncSlice
-      VAProfileHEVCMain10             :	VAEntrypointVLD
-      VAProfileHEVCMain10             :	VAEntrypointEncSlice
-      VAProfileVP9Profile0            :	VAEntrypointVLD
-      VAProfileVP9Profile0            :	VAEntrypointEncSlice
-      VAProfileVP9Profile2            :	VAEntrypointVLD
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;code&gt;VLD&lt;/code&gt; means we have hardware accelerated media decoding.&lt;/p&gt;
-
-&lt;h2 id=&#34;media-players&#34;&gt;Media players&lt;/h2&gt;
-
-&lt;p&gt;I have gone through quite a lot of media players trying to get it to use the VA-API, the ones which are apparently supported apparently&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;Gstreamer - &lt;a href=&#34;https://gstreamer.freedesktop.org/modules/gstreamer-vaapi.html&#34;&gt;https://gstreamer.freedesktop.org/modules/gstreamer-vaapi.html&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;QtAV which uses FFmpeg &lt;a href=&#34;http://www.qtav.org/&#34;&gt;http://www.qtav.org/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-
-&lt;li&gt;&lt;p&gt;mpv a fork of Mplayer &lt;a href=&#34;https://mpv.io/&#34;&gt;https://mpv.io/&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;In the end I was only able to get mpv work with hardware video acceleration with VA-API.&lt;/p&gt;
-
-&lt;h2 id=&#34;mpv&#34;&gt;MPV&lt;/h2&gt;
-
-&lt;p&gt;So MPV out of the box doesn&amp;rsquo;t actually use VA-API cause the developers don&amp;rsquo;t seem to like it.&lt;/p&gt;
-
-&lt;p&gt;Quote from their wiki.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;This driver is for compatibility with crappy systems.
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Unfortunately we are left to work with it. There seem to be two modes/APIs in VA-API, one EGL and the other is GLX mode. The GLX mode doesn&amp;rsquo;t render at full color and it&amp;rsquo;s the only that seems to work right now. The EGL API doesn&amp;rsquo;t work.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;vim ~/.config/mpv/mpv.conf&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The magic line you need to add is&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;hwdec=vaapi&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;You can also add in the line below for higher quality, though be warned that 4k videos start stuttering.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;profile=opengl-hq&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;CPU usage went down from about 120% with full CPU rendering of a &lt;a href=&#34;https://www.youtube.com/watch?v=AOfMnx6fc6A&#34;&gt;4k youtube video&lt;/a&gt;, to about 20% after it started using the GPU.&lt;/p&gt;
-</description>
+      <guid>http://localhost:1313/vp9-hardware-decoding-arch-linux/</guid>
+      <description>Kaby Lake processors come with Intel HD graphics chips that allows for you to do hardware decoding of VP9 and H.265 10 bit videos. Check the chart below for more details.&#xA;Intel Allows you to access their Intel GPU by using the VA-API, the Arch Linux wiki has a good deal of information on VA-API and VDPAU here.&#xA;Installing Drivers Let&amp;rsquo;s install the VA-API with&#xA;sudo pacman -S libva-intel-driver&#xA;To actually test if VA-API works, we have to install another AUR package to get the vainfo binary.</description>
     </item>
-    
     <item>
       <title>Moving from HDD to SSD with Arch Linux</title>
-      <link>http://blog.hacktohell.org/moving-from-hdd-to-ssd-arch/</link>
+      <link>http://localhost:1313/moving-from-hdd-to-ssd-arch/</link>
       <pubDate>Sun, 19 Mar 2017 13:51:47 +0000</pubDate>
-      
-      <guid>http://blog.hacktohell.org/moving-from-hdd-to-ssd-arch/</guid>
-      <description>&lt;p&gt;Was scouting out a SSD for my laptop and I found the 2 year old EVO 850 series to be the right combination of performance vs reliability. I got the 250 GB one as it was within my 10k budget. I also got a metal mounting bracket, (plastic ones don&amp;rsquo;t conduct heat). Originally the plan was to have the HDD in the bracket but ended up having the SSD in there.&lt;/p&gt;
-
-&lt;p&gt;The EVO does have some little issues though, it&amp;rsquo;s made of TLC NAND which has rather slow write performance compared to SLC NAND, samsung address this problem by having an TLC NAND cache, called TurboWrite which is 3GB. After the initial 3GB write speeds are going to slow down by about 220 MB/s. (From 520 to 300). You should read up Anand Tech&amp;rsquo;s review of the SSD for a more detailed analysis(&lt;a href=&#34;http://www.anandtech.com/show/8747/samsung-ssd-850-evo-review/2&#34;&gt;http://www.anandtech.com/show/8747/samsung-ssd-850-evo-review/2&lt;/a&gt;). The drive is rated at 75 TBW with a five year warranty but it should be able to go way more than that.&lt;/p&gt;
-
-&lt;p&gt;For my use case, mainly speeding up Idea and Pycharm, it&amp;rsquo;s not going to come close to that limit in 5 years. I have been running arch linux for a while now and decided to simply copy it over instead of spending time reinstalling it on the SSD. I had installed it on a 100 GB partition and was only using about 50 gigs, so I could copy it over easily.&lt;/p&gt;
-
-&lt;p&gt;The installing part was fairly simple, the CD -&amp;gt; HDD bracket dimensions were a little bit off and I had to apply a bit of force to get it to slide in. Then booted from my USB drive into elementary linux and continued from there. Used this as the reference for the copy &lt;a href=&#34;https://jivoi.github.io/2016/04/04/move-from-hdd-to-ssd-with-archlinux/&#34;&gt;https://jivoi.github.io/2016/04/04/move-from-hdd-to-ssd-with-archlinux/&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Used GPT and I had to create a 2mb bios partition otherwise grub install would refuse to work. Good thing I left out 4 mb before the first partition otherwise I would have had to delete all the data and do it from the beginning. The other partition was good old ext4.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;mount /dev/sdb2 /mnt
-mkdir /mnt_old
-mount /dev/sda9 /mnt_old
-rsync -aAXv --progress /mnt_old/ /mnt
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Note the forward slash on &lt;code&gt;mnt_old&lt;/code&gt; miss that and there will be a folder called mnt_old inside &lt;code&gt;mnt&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;Then I edited the fstab file with the UUID of the new partition, found using the &lt;code&gt;blkid&lt;/code&gt; command and pointed &lt;code&gt;/&lt;/code&gt; at it. Then had to chroot into arch to install grub.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ mount --bind /dev /mnt/dev
-$ mount --bind /proc /mnt/proc
-$ mount --bind /sys /mnt/sys
-$ chroot /mnt /bin/bash
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;I realized that I didn&amp;rsquo;t have grub package in arch, tried to install via pacman and it worked! (surprise). Need to learn more about chroots. Then the good old grub-install pushed the config to /boot&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ grub-install --debug --recheck /dev/sdb
-$ grub-install --target=i386-pc --debug --recheck /dev/sdb
-$ grub-mkconfig -o /boot/grub/grub.cfg
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Rebooted and changed the boot order to boot from the SSD instead of the HDD and that was pretty much it. Went smoother than I anticipated.&lt;/p&gt;
-
-&lt;p&gt;Post install I enabled the fstrim service &lt;code&gt;systemctl enable fstrim.service&lt;/code&gt; and added the noatime to the mount parameters in fstab.&lt;/p&gt;
-
-&lt;p&gt;There&amp;rsquo;s also this handy script I found on Stack Overflow for checking the data written to the SSD.&lt;/p&gt;
-
-&lt;script src=&#34;https://gist.github.com/HackToHell/7c658179c24be63bdf739978b97f313a.js&#34;&gt;&lt;/script&gt;
-</description>
+      <guid>http://localhost:1313/moving-from-hdd-to-ssd-arch/</guid>
+      <description>Was scouting out a SSD for my laptop and I found the 2 year old EVO 850 series to be the right combination of performance vs reliability. I got the 250 GB one as it was within my 10k budget. I also got a metal mounting bracket, (plastic ones don&amp;rsquo;t conduct heat). Originally the plan was to have the HDD in the bracket but ended up having the SSD in there.</description>
     </item>
-    
     <item>
       <title>Adding multi level commands using spf13 cobra</title>
-      <link>http://blog.hacktohell.org/multi-level-command-spf13/</link>
+      <link>http://localhost:1313/multi-level-command-spf13/</link>
       <pubDate>Sun, 12 Mar 2017 17:34:53 +0000</pubDate>
-      
-      <guid>http://blog.hacktohell.org/multi-level-command-spf13/</guid>
-      <description>&lt;p&gt;We can chain commands pretty simply, say you want to make an app &lt;code&gt;streamer&lt;/code&gt; that has a sub command &lt;code&gt;read&lt;/code&gt; and an sub-command of that called &lt;code&gt;csv&lt;/code&gt; and &lt;code&gt;json&lt;/code&gt;. You can use the cobra init to generate these separate ones,&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;cobra add csv&lt;br /&gt;
-cobra add json&lt;br /&gt;
-cobra add read&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Then go into the source file and hook up csv and json with the proper parent, in this case, &lt;code&gt;readCmd&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;So we change from&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;RootCmd.AddCommand =&amp;gt; readCmd.AddCommand&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;This allows us to easily create a large tree.&lt;/p&gt;
-</description>
+      <guid>http://localhost:1313/multi-level-command-spf13/</guid>
+      <description>We can chain commands pretty simply, say you want to make an app streamer that has a sub command read and an sub-command of that called csv and json. You can use the cobra init to generate these separate ones,&#xA;cobra add csv cobra add json&#xA;cobra add read&#xA;Then go into the source file and hook up csv and json with the proper parent, in this case, readCmd.&#xA;So we change from</description>
     </item>
-    
   </channel>
 </rss>

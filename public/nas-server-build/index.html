@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta content="technology, blog" name="keywords">
+<meta content="hacktohell" name="author">
+<meta property="og:title" content="NAS and selfhosted server build - Wanderings | A blog">
+<meta property="og:url" content="http://localhost:1313/nas-server-build/">
+<meta property="og:description" content="Tech Blog">
+<meta property="og:type" content="website" />
+<title>NAS and selfhosted server build | Wanderings | A blog</title>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel="stylesheet" href="http://localhost:1313//css/style.css">
+<link rel="shortcut icon" href="http://localhost:1313//favicon.ico">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" integrity="sha256-Zd1icfZ72UBmsId/mUcagrmN7IN5Qkrvh75ICHIQVTk=" crossorigin="anonymous" />
+
+</head>
+
+<body>
+<section class="section">
+  <div class="container">
+    <nav class="nav">
+      <div class="nav-left">
+        <a class="nav-item" href="http://localhost:1313/"><h1 class="title is-4">Wanderings | A blog</h1></a>
+      </div>
+      <div class="nav-right">
+        <nav class="nav-item level is-mobile">
+          
+          <a class="level-item" href="https://github.com/hacktohell" target="_blank">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="https://twitter.com/hacktohell" target="_blank">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+          
+          <a class="level-item" href="/index.xml" target="_blank">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+          </a>
+          
+        </nav>
+      </div>
+    </nav>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title">NAS and selfhosted server build</h1>
+    <h2 class="subtitle is-5">April 23, 2024 by hacktohell</h2>
+    
+    <div class="content">
+      <p>While I have officially had a whole load of smaller machines as &ldquo;selfhosted&rdquo; servers, they have been adhoc all over the place (raspis are quite fun to stick in random places and then forget about). I have also been running
+on some older laptop hard drives that finally kicked the bucket and I don&rsquo;t have space on my main rig anymore after fiting a 3090 and a 3070 in it.</p>
+<p>I wanted a system that was relatively light on power even if where I live power is reasonably cheap and also didn&rsquo;t want to spend over 250$ on hardware. Thankfully now that ebay.com is a thing in my life, it was pretty easy to source the parts. I used
+the excellent <a href="https://forums.serverbuilds.net/t/guide-nas-killer-6-0-ddr4-is-finally-cheap/13956">NAS Killer</a> guide as a base for choosing the parts. I did have to meander off the list for motherboard options since almost all of them are out of stock in ebay.</p>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th>Description</th>
+<th>Price</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CPU[used]</td>
+<td>i5-8500t</td>
+<td>$47.95</td>
+</tr>
+<tr>
+<td>Motherboard[used]</td>
+<td>ASUS Prime H370M Plus</td>
+<td>$47.97</td>
+</tr>
+<tr>
+<td>PSU</td>
+<td>EVGA 550 BP</td>
+<td>$77.00</td>
+</tr>
+<tr>
+<td>Heatsink</td>
+<td>Thermalright Assassin X120</td>
+<td>$19.00</td>
+</tr>
+<tr>
+<td>Case</td>
+<td>Cooler Master N400</td>
+<td>$82.11</td>
+</tr>
+<tr>
+<td>RAM</td>
+<td>Old 32GB (8x4)</td>
+<td>$0.00</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td><strong>$274.03</strong></td>
+</tr>
+</tbody>
+</table>
+<p>For the main RAID storage, I got  2x <code>HGST Ultrastar DC HC520 12TB SATA 6Gb 256MB</code> for about 80$ each which had been running for around 5 years in a datacenter. The power on cycles on both of the drives look extremly good which is great, need to figure out a way to dump this info into git over time so I can keep track of them failing. Boot drive is an old SSD WD green 256GB I had lying around from some time ago.</p>
+<p>The HDD is pretty noisy with some pointed sounds coming out of it, but it&rsquo;s not as annoying as I though it would be so it continues to churn on right next to my main desk, on idle it uses about 45W in total which is not bad at all.</p>
+<h2 id="software">Software</h2>
+<p>Running manjaro with btrfs raid 1 on the HDDs, planning to run plex, immich on k3s, but that&rsquo;s for another day.</p>
+
+    </div>
+    
+        <div class="nav-left">
+    <a class="nav-item" href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fnas-server-build%2f" title="Share on Facebook" target="_blank"><span class="fa fa-facebook fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2flocalhost%3a1313%2fnas-server-build%2f" title="Share on LinkedIn" target="_blank"><span class="fa fa-linkedin fa-2x" aria-hidden="true"></span></a>
+    <a class="nav-item" href="https://twitter.com/home?status=NAS%20and%20selfhosted%20server%20build - http%3a%2f%2flocalhost%3a1313%2fnas-server-build%2f" title="Tweet this" target="_blank"><span class="fa fa-twitter fa-2x"></span></a>
+    <a class="nav-item" href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fnas-server-build%2f&title=NAS%20and%20selfhosted%20server%20build" title="Share on Reddit" target="_blank"><span class="fa fa-reddit-alien fa-2x" aria-hidden="true"></span></a>
+    
+    </div>
+
+    
+  </div>
+</section>
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <p>&copy; 2017 | Follow on <a href="https://twitter.com/hacktohell" target="_blank">Twitter</a></p>
+  </div>
+</section>
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+<script>
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-16175693-14', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+</body>

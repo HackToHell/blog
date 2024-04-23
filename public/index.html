@@ -1,25 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+	<meta name="generator" content="Hugo 0.123.7"><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta content="technology, blog" name="keywords">
 <meta content="hacktohell" name="author">
 <meta property="og:title" content="Wanderings | A blog">
-<meta property="og:url" content="http://blog.hacktohell.org/">
+<meta property="og:url" content="http://localhost:1313/">
 <meta property="og:description" content="Tech Blog">
 <meta property="og:type" content="website" />
 <title>Wanderings | A blog</title>
-<link rel="stylesheet" href="http://blog.hacktohell.org/css/style.css">
-<link rel="shortcut icon" href="http://blog.hacktohell.org/wave.ico">
 
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+<link rel="stylesheet" href="http://localhost:1313//css/style.css">
+<link rel="shortcut icon" href="http://localhost:1313//favicon.ico">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
 
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css" integrity="sha256-Zd1icfZ72UBmsId/mUcagrmN7IN5Qkrvh75ICHIQVTk=" crossorigin="anonymous" />
 
+</head>
 
 <section class="section">
   <div class="container">
     <nav class="nav">
       <div class="nav-left">
-        <a class="nav-item" href="http://blog.hacktohell.org"><h1 class="title is-4">Wanderings | A blog</h1></a>
+        <a class="nav-item" href="http://localhost:1313/"><h1 class="title is-4">Wanderings | A blog</h1></a>
       </div>
       <div class="nav-right">
         <nav class="nav-item level is-mobile">
@@ -52,16 +65,34 @@
   <div class="container">
     
     <article>
-      <h1 class="title"><a href="http://blog.hacktohell.org/vp9-hardware-decoding-arch-linux/">Making VP9 hardware decoding work with Kaby Lake and Arch Linux</a></h1>
+      <h1 class="title"><a href="http://localhost:1313/nas-server-build/">NAS and selfhosted server build</a></h1>
+      <h2 class="subtitle is-5">April 23, 2024</h2>
+      
+      <div class="content">
+        While I have officially had a whole load of smaller machines as &ldquo;selfhosted&rdquo; servers, they have been adhoc all over the place (raspis are quite fun to stick in random places and then forget about). I have also been running on some older laptop hard drives that finally kicked the bucket and I don&rsquo;t have space on my main rig anymore after fiting a 3090 and a 3070 in it.
+        
+        ...<a class="button is-link" href="http://localhost:1313/nas-server-build/" style="height:28px">
+          Read more
+          <span class="icon is-small">
+            <i class="fa fa-angle-double-right"></i>
+          </span>
+        </a>
+        
+      </div>
+    </article>
+    
+    <article>
+      <h1 class="title"><a href="http://localhost:1313/vp9-hardware-decoding-arch-linux/">Making VP9 hardware decoding work with Kaby Lake and Arch Linux</a></h1>
       <h2 class="subtitle is-5">May 29, 2017</h2>
       
       <div class="content">
         Kaby Lake processors come with Intel HD graphics chips that allows for you to do hardware decoding of VP9 and H.265 10 bit videos. Check the chart below for more details.
 Intel Allows you to access their Intel GPU by using the VA-API, the Arch Linux wiki has a good deal of information on VA-API and VDPAU here.
 Installing Drivers Let&rsquo;s install the VA-API with
- sudo pacman -S libva-intel-driver
+sudo pacman -S libva-intel-driver
+To actually test if VA-API works, we have to install another AUR package to get the vainfo binary.
         
-        ...<a class="button is-link" href="http://blog.hacktohell.org/vp9-hardware-decoding-arch-linux/" style="height:28px">
+        ...<a class="button is-link" href="http://localhost:1313/vp9-hardware-decoding-arch-linux/" style="height:28px">
           Read more
           <span class="icon is-small">
             <i class="fa fa-angle-double-right"></i>
@@ -72,13 +103,13 @@ Installing Drivers Let&rsquo;s install the VA-API with
     </article>
     
     <article>
-      <h1 class="title"><a href="http://blog.hacktohell.org/moving-from-hdd-to-ssd-arch/">Moving from HDD to SSD with Arch Linux</a></h1>
+      <h1 class="title"><a href="http://localhost:1313/moving-from-hdd-to-ssd-arch/">Moving from HDD to SSD with Arch Linux</a></h1>
       <h2 class="subtitle is-5">March 19, 2017</h2>
       
       <div class="content">
         Was scouting out a SSD for my laptop and I found the 2 year old EVO 850 series to be the right combination of performance vs reliability. I got the 250 GB one as it was within my 10k budget. I also got a metal mounting bracket, (plastic ones don&rsquo;t conduct heat). Originally the plan was to have the HDD in the bracket but ended up having the SSD in there.
         
-        ...<a class="button is-link" href="http://blog.hacktohell.org/moving-from-hdd-to-ssd-arch/" style="height:28px">
+        ...<a class="button is-link" href="http://localhost:1313/moving-from-hdd-to-ssd-arch/" style="height:28px">
           Read more
           <span class="icon is-small">
             <i class="fa fa-angle-double-right"></i>
@@ -89,17 +120,17 @@ Installing Drivers Let&rsquo;s install the VA-API with
     </article>
     
     <article>
-      <h1 class="title"><a href="http://blog.hacktohell.org/multi-level-command-spf13/">Adding multi level commands using spf13 cobra</a></h1>
+      <h1 class="title"><a href="http://localhost:1313/multi-level-command-spf13/">Adding multi level commands using spf13 cobra</a></h1>
       <h2 class="subtitle is-5">March 12, 2017</h2>
       
       <div class="content">
         We can chain commands pretty simply, say you want to make an app streamer that has a sub command read and an sub-command of that called csv and json. You can use the cobra init to generate these separate ones,
- cobra add csv
-cobra add json
+cobra add csv cobra add json
 cobra add read
- Then go into the source file and hook up csv and json with the proper parent, in this case, readCmd.
+Then go into the source file and hook up csv and json with the proper parent, in this case, readCmd.
+So we change from
         
-        ...<a class="button is-link" href="http://blog.hacktohell.org/multi-level-command-spf13/" style="height:28px">
+        ...<a class="button is-link" href="http://localhost:1313/multi-level-command-spf13/" style="height:28px">
           Read more
           <span class="icon is-small">
             <i class="fa fa-angle-double-right"></i>
@@ -117,24 +148,10 @@ cobra add read
       <div class="level-left">
         <div class="level-item">
           
-          <a class="button is-disabled">
-            <span class="icon is-small is-marginless">
-              <i class="fa fa-angle-left"></i>
-            </span>
-            Newer
-          </a>
-          
         </div>
       </div>
       <div class="level-right is-marginless">
         <div class="level-item">
-          
-          <a class="button is-disabled">
-            Older
-            <span class="icon is-small is-marginless">
-              <i class="fa fa-angle-right"></i>
-            </span>
-          </a>
           
         </div>
       </div>
@@ -147,16 +164,23 @@ cobra add read
     <p>&copy; 2017 | Follow on <a href="https://twitter.com/hacktohell" target="_blank">Twitter</a></p>
   </div>
 </section>
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"> 
 
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js" integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin="anonymous"></script>
+
+<script>hljs.initHighlightingOnLoad();</script>
 
 
 <script>
-window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
-ga('create', 'UA-16175693-14', 'auto');
-ga('send', 'pageview');
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-16175693-14', 'auto');
+	
+	ga('send', 'pageview');
+}
 </script>
-<script async src='//www.google-analytics.com/analytics.js'></script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
 
