@@ -22,7 +22,7 @@ Total = 14.36
 Compared to the official cloud solution, the Kumo Cloud thermostats which are about 344$ per indoor head, this is a fraction of the cost.
 
 ## Wiring
-![Wiring](/images/circuit.svg)
+![Wiring](/images/circuit.png)
 ### Level Shifter
 Most projects ignore the level shifter, the CN105 protocol has been reverse engineered to be running on 5V and not the 3.3V which the ESP32 expects on the UART ports. While most ESP32s are somewhat tolerant of this, it's just better to have a level shifter, especially when the possibility of it knocking out the control board of the heat pump is a possibility. Thanks un-named W manager for the help with this.
 ### ESP32
