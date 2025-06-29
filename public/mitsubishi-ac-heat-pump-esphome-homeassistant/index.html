@@ -1,0 +1,74 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta content="technology,blog" name=keywords><meta content="hacktohell" name=author><meta property="og:title" content="Controlling Mitsubushi Heat Pump with esphome and homeassistant - Wanderings | A blog"><meta property="og:url" content="http://blog.hacktohell.org/mitsubishi-ac-heat-pump-esphome-homeassistant/"><meta property="og:description" content="Tech Blog"><meta property="og:type" content="website"><title>Controlling Mitsubushi Heat Pump with esphome and homeassistant | Wanderings | A blog</title><script type=text/x-mathjax-config>
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script><link rel=stylesheet href=http://blog.hacktohell.org/css/style.css><link rel="shortcut icon" href=http://blog.hacktohell.org/favicon.ico><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin=anonymous><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/default.min.css integrity="sha256-Zd1icfZ72UBmsId/mUcagrmN7IN5Qkrvh75ICHIQVTk=" crossorigin=anonymous></head><body><section class=section><div class=container><nav class=nav><div class=nav-left><a class=nav-item href=http://blog.hacktohell.org><h1 class="title is-4">Wanderings | A blog</h1></a></div><div class=nav-right><nav class="nav-item level is-mobile"><a class=level-item href=https://github.com/hacktohell target=_blank><span class=icon><i class="fa fa-github"></i></span></a>
+<a class=level-item href=https://twitter.com/hacktohell target=_blank><span class=icon><i class="fa fa-twitter"></i></span></a>
+<a class=level-item href=/index.xml target=_blank><span class=icon><i class="fa fa-rss"></i></span></a></nav></div></nav></div></section><section class=section><div class=container><h1 class=title>Controlling Mitsubushi Heat Pump with esphome and homeassistant</h1><h2 class="subtitle is-5">June 3, 2024 by hacktohell</h2><div class=content><p>Modern heat pumps are incredibly efficient and can be used to heat and cool your home, however there&rsquo;s still the matter of controlling them precisely to how your would want your house. With it being more decrentalized especially with minisplits, it&rsquo;s a bit more tricky to &ldquo;nest&rdquo; them. I wanted to have a somewhat automated climate controller that meant automatic switch on when the temperature is too low and switch off when the temperature is too high as well as using an external temperature sensor to control the temperature.</p><p>There&rsquo;s this amazing project called <a href=https://github.com/echavet/MitsubishiCN105ESPHome>https://github.com/echavet/MitsubishiCN105ESPHome</a> which has reverse engineered the communication protocol of the heat pump and has a library to control. Paired with esphome, it&rsquo;s extremly simple to get it onboarded to homeassistant. However the project is old and more modern implementations use a esp32 and this talks about a simple installation I made.</p><h2 id=bom>BOM</h2><table><thead><tr><th>Component</th><th>Description</th><th>Price (USD)</th></tr></thead><tbody><tr><td><a href=https://www.amazon.com/dp/B0BK13HWBJ>ESP32-WROOM-32</a></td><td>Generic one of amazon, this one is 30 pins, but anything cheap works</td><td>22/5 = 4.4</td></tr><tr><td><a href=https://www.amazon.com/dp/B07F7W91LC>3.3-5V level shifter</a></td><td>IIC I2C Logic Level Converter Bi-Directional 3.3V-5V Shifter Module</td><td>7.49/10 = 0.75</td></tr><tr><td><a href=https://www.amazon.com/dp/B0BRTJQGS6>Jumper cables</a></td><td>40 PCS 20 CM (8 inch) Breadboard Jumper Wires Wire Length Optional Dupont Cable Assorted Kit Female to Female Multicolored Ribbon Cables</td><td>3.99</td></tr><tr><td><a href=https://vi.aliexpress.com/item/3256808871610645.html>CN1005 Adapter Cables</a></td><td>PAP-04V-S PAP-05V-S 20/30cm PA2.0mm PAP2.0 to Dupont 1P Male/Female Wire Position Rectangular Housing Connector 0.079" (2.00mm)</td><td>5.22</td></tr></tbody></table><p>Total = 14.36</p><p>Compared to the official cloud solution, the Kumo Cloud thermostats which are about 344$ per indoor head, this is a fraction of the cost.</p><h2 id=wiring>Wiring</h2><p><img src=/images/circuit.svg alt=Wiring></p><h3 id=level-shifter>Level Shifter</h3><p>Most projects ignore the level shifter, the CN105 protocol has been reverse engineered to be running on 5V and not the 3.3V which the ESP32 expects on the UART ports. While most ESP32s are somewhat tolerant of this, it&rsquo;s just better to have a level shifter, especially when the possibility of it knocking out the control board of the heat pump is a possibility.</p><h3 id=esp32>ESP32</h3><p>There&rsquo;s a lot of versions out of there, to be honest it doesn&rsquo;t really mattcher much, I just got the 2 core version just in case. Mine does have an annoying red LED on it, which is spliced directly into the power so the only way to turn it off is to remove the SMD diode. I left it on since shoving it into the heat pump doesn&rsquo;t cause that much of a light bleed and also a good way to tell if it&rsquo;s working or not.</p><p>I reccomend a layer of glue gun on the dupont cables to make sure they don&rsquo;t come loose and heat shrink the whole thing if you want to be extra careful.</p><h2 id=esphome>ESPHome</h2><p>The ESPHome configuration is pretty simple, follwing the instructions in the <a href=https://github.com/echavet/MitsubishiCN105ESPHome>MitsubishiCN105ESPHome</a> repo.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>esp32</span>:
+  <span style=color:#f92672>board</span>: <span style=color:#ae81ff>denky32 </span>
+  <span style=color:#f92672>framework</span>:
+    <span style=color:#f92672>type</span>:  <span style=color:#ae81ff>esp-idf </span>
+
+<span style=color:#f92672>climate</span>:
+  - <span style=color:#f92672>platform</span>: <span style=color:#ae81ff>cn105</span>
+    <span style=color:#f92672>id</span>: <span style=color:#ae81ff>hp</span>
+    <span style=color:#f92672>name</span>: <span style=color:#e6db74>&#34;Bedroom heat pump&#34;</span>
+    <span style=color:#f92672>icon</span>: <span style=color:#ae81ff>mdi:heat-pump</span>
+    <span style=color:#f92672>visual</span>:
+      <span style=color:#f92672>min_temperature</span>: <span style=color:#ae81ff>16</span>
+      <span style=color:#f92672>max_temperature</span>: <span style=color:#ae81ff>31</span>
+      <span style=color:#f92672>temperature_step</span>:
+        <span style=color:#f92672>target_temperature</span>: <span style=color:#ae81ff>1</span>
+        <span style=color:#f92672>current_temperature</span>: <span style=color:#ae81ff>0.5</span>
+    <span style=color:#75715e># Fahrenheit compatibility mode - uses Mitsubishi&#39;s &#34;custom&#34; unit conversions, set to</span>
+    <span style=color:#75715e># &#34;true&#34; for better support of Fahrenheit units in HomeAssistant</span>
+    <span style=color:#f92672>fahrenheit_compatibility</span>: <span style=color:#66d9ef>false</span>
+    <span style=color:#75715e># Timeout and communication settings</span>
+    <span style=color:#f92672>remote_temperature_timeout</span>: <span style=color:#ae81ff>30min</span>
+    <span style=color:#f92672>update_interval</span>: <span style=color:#ae81ff>30s</span>
+    <span style=color:#f92672>debounce_delay</span>: <span style=color:#ae81ff>100ms</span>
+    <span style=color:#75715e># Various optional sensors, not all sensors are supported by all heatpumps</span>
+    <span style=color:#f92672>compressor_frequency_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Compressor Frequency</span>
+      <span style=color:#f92672>entity_category</span>: <span style=color:#ae81ff>diagnostic</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>false</span>
+    <span style=color:#f92672>outside_air_temperature_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Outside Air Temp</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>false</span>
+    <span style=color:#f92672>vertical_vane_select</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Vertical Vane</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>false</span>
+    <span style=color:#f92672>horizontal_vane_select</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Horizontal Vane</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>true</span>
+    <span style=color:#f92672>isee_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>ISEE Sensor</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>true</span>
+    <span style=color:#f92672>stage_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Stage</span>
+      <span style=color:#75715e># use_as_operating_fallback: false     # set to true if your unit doesn&#39;t provide activity indicator</span>
+      <span style=color:#f92672>entity_category</span>: <span style=color:#ae81ff>diagnostic</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>true</span>
+    <span style=color:#f92672>sub_mode_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Sub Mode</span>
+      <span style=color:#f92672>entity_category</span>: <span style=color:#ae81ff>diagnostic</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>false</span>
+    <span style=color:#f92672>auto_sub_mode_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Auto Sub Mode</span>
+      <span style=color:#f92672>entity_category</span>: <span style=color:#ae81ff>diagnostic</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>false</span>
+    <span style=color:#f92672>input_power_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Input Power</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>false</span>
+    <span style=color:#f92672>kwh_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Energy Usage</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>false</span>
+    <span style=color:#f92672>runtime_hours_sensor</span>:
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Runtime Hours</span>
+      <span style=color:#f92672>entity_category</span>: <span style=color:#ae81ff>diagnostic</span>
+      <span style=color:#f92672>disabled_by_default</span>: <span style=color:#66d9ef>false</span>
+
+</code></pre></div><p>Tracking down the esp32 board is a bit annoying, especially if you buy a generic cheap one. Try and match the specs with one of the boards at <a href=https://docs.platformio.org/en/stable/boards/espressif32/denky32.html>platformio</a>. I was surprised that the esphome tool mDNS discovery just works TM. It&rsquo;s on a separate VLAN so I had to add cross talk exceptions, but mDNS just worked, (security issues much?)</p><h2 id=energy-tracking-in-home-assistant>Energy tracking in Home Assistant</h2><p>I have a 3 head unit and the first head that I connected to ESP32 for some reason tracks the entire power usage of the outdoor unit. While it&rsquo;s a bit annoying, this is not too bad since the outdoor unit is the only one that has a power meter. Make sure you turn it on in the configuration.</p><p><img src=/images/ha_screen_shot.png alt=HA></p></div><div class=nav-left><a class=nav-item href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2fblog.hacktohell.org%2fmitsubishi-ac-heat-pump-esphome-homeassistant%2f" title="Share on Facebook" target=_blank><span class="fa fa-facebook fa-2x" aria-hidden=true></span></a><a class=nav-item href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2fblog.hacktohell.org%2fmitsubishi-ac-heat-pump-esphome-homeassistant%2f" title="Share on LinkedIn" target=_blank><span class="fa fa-linkedin fa-2x" aria-hidden=true></span></a><a class=nav-item href="https://twitter.com/home?status=Controlling%20Mitsubushi%20Heat%20Pump%20with%20esphome%20and%20homeassistant - http%3a%2f%2fblog.hacktohell.org%2fmitsubishi-ac-heat-pump-esphome-homeassistant%2f" title="Tweet this" target=_blank><span class="fa fa-twitter fa-2x"></span></a><a class=nav-item href="http://www.reddit.com/submit?url=http%3a%2f%2fblog.hacktohell.org%2fmitsubishi-ac-heat-pump-esphome-homeassistant%2f&title=Controlling%20Mitsubushi%20Heat%20Pump%20with%20esphome%20and%20homeassistant" title="Share on Reddit" target=_blank><span class="fa fa-reddit-alien fa-2x" aria-hidden=true></span></a></div></div></section><section class=section><div class="container has-text-centered"><p>&copy; 2017 | Follow on <a href=https://twitter.com/hacktohell target=_blank>Twitter</a></p></div></section><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.11.0/highlight.min.js integrity="sha256-+bhVTaRmJ/c07eV80nU8gD2cBBF0rYkf1txqXlrbvb0=" crossorigin=anonymous></script><script>hljs.initHighlightingOnLoad()</script><script type=application/javascript>var doNotTrack=!1;doNotTrack||(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)}(window,document,'script','https://www.google-analytics.com/analytics.js','ga'),ga('create','UA-16175693-14','auto'),ga('send','pageview'))</script></body>

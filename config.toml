@@ -43,3 +43,7 @@ fa_icon = "fa-rss"
 #[[params.socialshare]]
 #url = "https://linkedin.com/in/mgjohansen"
 #fa_icon = "fa-linkedin-square"
+
+[[module.mounts]]
+source = 'images'
+target = 'static/images'
