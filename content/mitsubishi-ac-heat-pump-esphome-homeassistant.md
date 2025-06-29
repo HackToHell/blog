@@ -24,7 +24,7 @@ Compared to the official cloud solution, the Kumo Cloud thermostats which are ab
 ## Wiring
 ![Wiring](/images/circuit.svg)
 ### Level Shifter
-Most projects ignore the level shifter, the CN105 protocol has been reverse engineered to be running on 5V and not the 3.3V which the ESP32 expects on the UART ports. While most ESP32s are somewhat tolerant of this, it's just better to have a level shifter, especially when the possibility of it knocking out the control board of the heat pump is a possibility.
+Most projects ignore the level shifter, the CN105 protocol has been reverse engineered to be running on 5V and not the 3.3V which the ESP32 expects on the UART ports. While most ESP32s are somewhat tolerant of this, it's just better to have a level shifter, especially when the possibility of it knocking out the control board of the heat pump is a possibility. Thanks un-named W manager for the help with this.
 ### ESP32
 There's a lot of versions out of there, to be honest it doesn't really mattcher much, I just got the 2 core version just in case. Mine does have an annoying red LED on it, which is spliced directly into the power so the only way to turn it off is to remove the SMD diode. I left it on since shoving it into the heat pump doesn't cause that much of a light bleed and also a good way to tell if it's working or not. 
 
