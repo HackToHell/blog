@@ -1,6 +1,6 @@
 +++
 title = "Controlling Mitsubushi Heat Pump with esphome and homeassistant"
-date = "2024-06-03T00:49:28.235361"
+date = "2025-06-23T00:00:00.000000"
 +++
 
 Modern heat pumps are incredibly efficient and can be used to heat and cool your home, however there's still the matter of controlling them precisely to how your would want your house. With it being more decrentalized especially with minisplits, it's a bit more tricky to "nest" them. I wanted to have a somewhat automated climate controller that meant automatic switch on when the temperature is too low and switch off when the temperature is too high as well as using an external temperature sensor to control the temperature.
