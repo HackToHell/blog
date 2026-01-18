@@ -1,11 +1,12 @@
 import fs from 'fs'
 import path from 'path'
 
-type Metadata = {
+export type Metadata = {
   title: string
   publishedAt: string
   summary: string
   image?: string
+  tags?: string[]
 }
 
 function parseFrontmatter(fileContent: string) {
@@ -20,7 +21,19 @@ function parseFrontmatter(fileContent: string) {
     let [key, ...valueArr] = line.split(': ')
     let value = valueArr.join(': ').trim()
     value = value.replace(/^['"](.*)['"]$/, '$1') // Remove quotes
-    metadata[key.trim() as keyof Metadata] = value
+
+    // Handle tags array
+    if (key.trim() === 'tags') {
+      const tagsMatch = value.match(/\[([^\]]*)\]/)
+      if (tagsMatch) {
+        metadata.tags = tagsMatch[1]
+          .split(',')
+          .map(tag => tag.trim().replace(/^['"]|['"]$/g, ''))
+          .filter(tag => tag.length > 0)
+      }
+    } else {
+      metadata[key.trim() as keyof Metadata] = value as any
+    }
   })
 
   return { metadata: metadata as Metadata, content }
@@ -87,4 +100,28 @@ export function formatDate(date: string, includeRelative = false) {
   }
 
   return `${fullDate} (${formattedDate})`
+}
+
+export function getAllTags() {
+  const posts = getBlogPosts()
+  const tagCount: Record<string, number> = {}
+
+  posts.forEach(post => {
+    post.metadata.tags?.forEach(tag => {
+      tagCount[tag] = (tagCount[tag] || 0) + 1
+    })
+  })
+
+  return Object.entries(tagCount)
+    .sort((a, b) => b[1] - a[1])
+    .map(([tag, count]) => ({ tag, count }))
+}
+
+export function getPostsByTag(tag: string) {
+  const posts = getBlogPosts()
+  return posts
+    .filter(post => post.metadata.tags?.includes(tag))
+    .sort((a, b) =>
+      new Date(b.metadata.publishedAt).getTime() - new Date(a.metadata.publishedAt).getTime()
+    )
 }

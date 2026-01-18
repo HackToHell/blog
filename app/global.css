@@ -31,6 +31,7 @@
 
 html {
   min-width: 360px;
+  font-family: Menlo, Consolas, Monaco, 'Adwaita Mono', 'Liberation Mono', 'Lucida Console', monospace;
 }
 
 .prose .anchor {
