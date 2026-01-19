@@ -1,39 +1,39 @@
 ---
-title: 'Claude code and philosophy of work'
+title: 'Ramblings on Claude Code and Philosophy of Work'
 publishedAt: '2026-01-18'
-summary: 'Effect of calude code in changing behaviours of making software decision tradeoffs'
+summary: 'Effect of Claude Code in changing behaviors of making software decision tradeoffs'
 tags: ['llm', 'thoughts']
 ---
 
-Recently at work, I did something normally I would veto or scorn at if someone proposed it normally. Except calude code removes almost all of the concerns, making me 
+Recently at work, I did something I would normally veto or scorn. Except Claude Code removes almost all of the concerns, making me 
 rethink the entire pipeline of the artifacts I produce at work. 
 
-To expand what happened a bit, normally if you are a senior engineer and you see a proposal to write a new ORM, I know you are going to raise your eyebrows. These are 
-one of those projects that is going to wake you up at 2 am with a weird complex bug so the value proposal needs to be particularly strong, especially if it's going to be 
+To expand on what happened a bit, normally if you are a senior engineer and you see a proposal to write a new ORM, I know you are going to raise your eyebrows. These are 
+one of those projects that are going to wake you up at 2 am with a weird complex bug, so the value proposition needs to be particularly strong, especially if it's going to be 
 maintained by a small team with already outsized responsibility.
 
-Well I was the engineer and I made claude code write me a ORM and a slew of tests, I honestly didn't expect it to work, I wanted to try it out since this was one of those
+Well, I was the engineer and I made Claude Code write me an ORM and a slew of tests. I honestly didn't expect it to work; I wanted to try it out since this was one of those
 problems where the scope was limited and feedback was instant. (It tests against a real test database and the expected output is obvious). Claude Code and I spent maybe 
-8 hours and about 100$ of API credits and there I had more tests than I would have ever written even if I had seriously commited to the ORM and a very nice codebase. Once
-the high of doing this ran away, I had to sit with my rational side wondering what have I done?
+8 hours and about $100 of API credits, and there I had more tests than I would have ever written even if I had seriously committed to the ORM and a very nice codebase. Once
+the high of doing this wore off, I had to sit with my rational side wondering: what have I done?
 
 What did I do?
-1. Added a complex project to the teams list of projects to maintain. (AI can fix bug right?)
-2. QoL improvments to the end user is actually pretty high.
-3. Does this set a precint that you can vibe code and throw in complex projects to handle the 20% you usually never touch? Where does this end?
+1. Added a complex project to the team's list of projects to maintain. (AI can fix bugs, right?)
+2. QoL improvements to the end user are actually pretty high.
+3. Does this set a precedent that you can vibe-code and throw in complex projects to handle the 20% you usually never touch? Where does this end?
 
-Regardless, I am not going to be the only one in this stage, I might have dabbled slightly earlier than my team, but this is going to be inevitable. Where and who draws
-the line on this is acceptable debt to take on the team is going to make or break a lot of teams if not companies. It's easy to say, claude code can find and fix bugs
-and add features so doesn't need too much hands on work, while it might be true to a large extent, all the projects still need a lot of ground work to be claude codable. 
+Regardless, I am not going to be the only one in this stage. I might have dabbled slightly earlier than my team, but this is going to be inevitable. Where and who draws
+the line on what is acceptable debt to take on for the team is going to make or break a lot of teams, if not companies. It's easy to say Claude Code can find and fix bugs
+and add features, so it doesn't need too much hands-on work; while it might be true to a large extent, all these projects still need a lot of groundwork to be Claude-codable. 
 
-## My new self guidelines on AI assisted code and projects.
+## My new self-guidelines on AI-assisted code and projects.
 
-### Think, design and then think more  
-Conversly, I find myself thinking more deeply about everything I do to ensure it's survival. Previously you could get away with working on the main structural base
-and filling in the blanks as you work, going back and forth with colleagues who work on different pieces and essentially finishing the scaffolding. Now if I don't think
-it through AI might fill in the blanks with a slightly inferior artifact that acculmulates over time. So you really need to know the pieces or good luck refactoring.
+### Think, design, and then think more  
+Conversely, I find myself thinking more deeply about everything I do to ensure its survival. Previously, you could get away with working on the main structural base
+and filling in the blanks as you work, going back and forth with colleagues who work on different pieces and essentially finishing the scaffolding. Now, if I don't think
+it through, AI might fill in the blanks with a slightly inferior artifact that accumulates over time. So you really need to know the pieces, or good luck refactoring.
 
 ### Why should I do this?
-I have switched to more of a review mode for some of more annoying tasks like rebasing, creating PRs, stacking PRs. AI does it, I review it's work. It's not perfect, 
-but it's faster and better than me. As someone in the infra world, this has parallels with automate everything with playbooks and IaaC vibes but 10 years later, it' still
-garbage and CD is but a dream in most orgs so YMMV.
+I have switched to more of a review mode for some of the more annoying tasks like rebasing, creating PRs, and stacking PRs. AI does it, I review its work. It's not perfect, 
+but it's faster and better than me. As someone in the infra world, this has parallels with "automate everything with playbooks and IaC" vibes, but 10 years later, it's still
+garbage and CD is but a dream in most orgs, so YMMV.
